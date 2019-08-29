@@ -31,6 +31,15 @@ class Todo {
         return $stmt->fetchAll(\PDO::FETCH_OBJ);
     }
 
+    public function getParticipant($ATT) {
+        $inClause = substr(str_repeat(',?', count($ATT)), 1);
+        $sql = sprintf('select * from user_table where id IN (%s)', $inClause);
+        $stmt = $this->_db->prepare($sql);
+        $stmt->execute($ATT);
+        return $stmt->fetchAll(\PDO::FETCH_OBJ);
+    }
+
+
     public function post() {
         $this->_validateToken();
         if (!isset($_POST['mode'])) {
@@ -61,8 +70,7 @@ class Todo {
             throw new \Exception('[update] id not set!');
         }
         $this->_db->beginTransaction();
-
-        $sql = sprintf("update user_table set gender = new_name where id = %d", $_POST['id']);
+        $sql = sprintf("update user_table set name = '%s', gender = %d, birthday = '%s' where id = %d", $_POST['name'],$_POST['gender'],$_POST['birthday'],$_POST['id']);
         $stmt = $this->_db->prepare($sql);
         $stmt->execute();
 

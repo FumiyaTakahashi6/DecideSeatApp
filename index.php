@@ -9,32 +9,28 @@
     $DecideSeatApp = new \MyAPP\Todo();
     $user_table = $DecideSeatApp->getAll();
 
-    function optionLoop($start, $end){	
-        for($i = $start; $i <= $end; $i++){
-            echo "<option value=\"{$i}\">{$i}</option>";
-        }
-    }
 ?>
 
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+
     <meta charset="utf-8"> 
     <title>DecideSeatApp</title>
     <link rel="stylesheet" href="styles.css">
+    <a href="http://localhost:9000/index2.php">参加者登録ページへ</a><br>
 </head>
 <body>
     <div id="continue">
-        <h1>DecideSeat</h1>
+        <h1>ユーザ管理ページ</h1>
         <button>ユーザー追加</button>
     
         <form action="">
             <input type="text" id="new_name" placeholder="What needs to be done?">
             <input type="radio" name="gender" value="0">女性
             <input type="radio" name="gender" value="1">男性
-            <label>生年月日: <input type="date" name="date"></label>
-            <input id="new_todo_form" type="submit" value="送信する">
-            <input type="reset" value="取消する">
+            <input type="date" name="date">
+            <input id="new_todo_form" type="button" value="送信する">
         </form>
         
         <ul id="todos">
@@ -44,13 +40,12 @@
                 <button >変更</button>
                 <button class="delete_todo">削除</button>
        
-                <form action="">
-                    <input type="text" id="new_name" placeholder=<?= h($user->name); ?>>
+                <form id="<?= h($user->id); ?>" action="">
+                    <input type="text" id="cheng_name" value=<?= h($user->name); ?>>
                     <input type="radio" name="gender" value="0" <?php if ($user->gender === '0') { echo 'checked'; } ?>>女性 
                     <input type="radio" name="gender" value="1" <?php if ($user->gender === '1') { echo 'checked'; } ?>>男性
-                    <label>生年月日: <input type="date" name="date" value=<?= h($user->birthday); ?>></label>
+                    <input type="date" name="birthday_date" value=<?= h($user->birthday); ?>>
                     <input class="update_todo" type="submit" value="送信する">
-                    <input type="reset" value="取消する">
                 </form>
                 <!-- <div class="delete_todo">×</div> -->
             </li>

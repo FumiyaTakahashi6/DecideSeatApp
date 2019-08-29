@@ -4,10 +4,10 @@ $(function() {
 
     $('#new_name').focus();
 
-    //delete
+    // ユーザーデータの削除
     $('#todos').on('click', '.delete_todo', function() {
         var id = $(this).parents('li').data('id');
-        console.log("ccc")
+        console.log("削除しました")
         if (confirm('are you sure?')) {
             $.post('_ajax.php', {
                 id: id,
@@ -18,15 +18,22 @@ $(function() {
             });
         }
     })
-    //update
+    // ユーザーデータの更新
     $('#todos').on('click', '.update_todo', function() {
         var id = $(this).parents('li').data('id');
-
+        let name = $("form[id="+id+"]").children('input[id=cheng_name]').val();
+        let gender = $("form[id="+id+"]").children('input[name=gender]:checked').val();
+        let birthday = $("form[id="+id+"]").children('input[name=birthday_date]').val();
+        console.log("更新しました")
         $.post('_ajax.php', {
             id: id,
+            name: name,
+            gender: gender,
+            birthday: birthday,
             mode: 'update',
             token: $('#token').val()
         },function(res){
+            console.log(id);
             if (res.gender === '1') {
                 $('#todo_' + id ).find('.todo_title').addClass('done')
             } else {
@@ -36,12 +43,13 @@ $(function() {
     });
     
 
-    //create
+    // ユーザーデータの作成
     $('#new_todo_form').on('click', function() {
-
+        console.log("作成しました")
         var name = $('#new_name').val();
         var gender = $('input[name="gender"]:checked').val();
         var birthday = $('input[name="date"]').val();
+
         $.post('_ajax.php', {
             name: name,
             gender: gender,
@@ -59,5 +67,41 @@ $(function() {
 
         });
         return false;
+    });
+    // テーブルの追加
+    $('#new_table').on('click', function() {
+        var num = $('#num').val();
+        $('#tables').append('<span class= "table" data-table=' + num + '>テーブル ' + num + '人</span>');
+        alert("追加しました")
+    });
+
+    $('#shuffle_button').on('click', function() {
+        
+        let table_seats = []
+        $('span[class="table"]').each(function(index,element) {
+            let seats = $(element).data('table');
+            table_seats[index] = seats;
+        })
+
+        let participant_id = []
+        $('input:checked').each(function(index) {
+            let id = $(this).parents('li').data('id');
+            participant_id[index] = id;
+        })
+        console.log(table_seats)
+        console.log(participant_id)
+
+        $.ajax({
+            type: 'POST',
+            url: './random.php',
+            dataType:'text',
+            data: {
+              id : participant_id,
+              table_seats : table_seats
+            },
+            success: function(response) {
+              alert(response);
+            }
+          });
     });
 });

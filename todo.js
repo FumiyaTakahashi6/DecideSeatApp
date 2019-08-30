@@ -83,20 +83,20 @@ $(function() {
             table_seats[index] = seats;
         })
 
-        let participant_id = []
+        let participant_ids = []
         $('input:checked').each(function(index) {
             let id = $(this).parents('li').data('id');
-            participant_id[index] = id;
+            participant_ids[index] = id;
         })
         console.log(table_seats)
-        console.log(participant_id)
+        console.log(participant_ids)
 
         $.ajax({
             type: 'POST',
             url: './random.php',
             dataType:'text',
             data: {
-              id : participant_id,
+              ids : participant_ids,
               table_seats : table_seats
             },
             success: function(response) {

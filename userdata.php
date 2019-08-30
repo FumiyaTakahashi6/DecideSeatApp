@@ -31,11 +31,19 @@ class Todo {
         return $stmt->fetchAll(\PDO::FETCH_OBJ);
     }
 
-    public function getParticipant($ATT) {
-        $inClause = substr(str_repeat(',?', count($ATT)), 1);
-        $sql = sprintf('select * from user_table where id IN (%s)', $inClause);
+    public function getDepartment($ids) {
+        $inClause = substr(str_repeat(',?', count($ids)), 1);
+        $sql = sprintf('select DISTINCT department_id from user_table where id IN (%s)', $inClause);
         $stmt = $this->_db->prepare($sql);
-        $stmt->execute($ATT);
+        $stmt->execute($ids);
+        return $stmt->fetchAll(\PDO::FETCH_OBJ);
+    }
+
+    public function getParticipant($ids,$department_id) {
+        $inClause = substr(str_repeat(',?', count($ids)), 1);
+        $sql = sprintf('select * from user_table where id IN (%s) and department_id = (%s)', $inClause,$department_id);
+        $stmt = $this->_db->prepare($sql);
+        $stmt->execute($ids);
         return $stmt->fetchAll(\PDO::FETCH_OBJ);
     }
 

@@ -27,26 +27,22 @@ class Todo {
     }
 
     public function getAll() {
-        $stmt = $this->_db->query("select * from user_table");
+        $stmt = $this->_db->query('select * from user_table');
         return $stmt->fetchAll(\PDO::FETCH_OBJ);
     }
 
-    public function getDepartment($ids) {
+    public function getDepartment() {
+        $stmt = $this->_db->query('select * from department_table');
+        return $stmt->fetchAll(\PDO::FETCH_OBJ);
+    }
+
+    public function getParticipant($ids) {
         $inClause = substr(str_repeat(',?', count($ids)), 1);
-        $sql = sprintf('select DISTINCT department_id from user_table where id IN (%s)', $inClause);
+        $sql = sprintf('select * from user_table where id IN (%s)', $inClause);
         $stmt = $this->_db->prepare($sql);
         $stmt->execute($ids);
         return $stmt->fetchAll(\PDO::FETCH_OBJ);
     }
-
-    public function getParticipant($ids,$department_id) {
-        $inClause = substr(str_repeat(',?', count($ids)), 1);
-        $sql = sprintf('select * from user_table where id IN (%s) and department_id = (%s)', $inClause,$department_id);
-        $stmt = $this->_db->prepare($sql);
-        $stmt->execute($ids);
-        return $stmt->fetchAll(\PDO::FETCH_OBJ);
-    }
-
 
     public function post() {
         $this->_validateToken();
@@ -78,7 +74,7 @@ class Todo {
             throw new \Exception('[update] id not set!');
         }
         $this->_db->beginTransaction();
-        $sql = sprintf("update user_table set name = '%s', gender = %d, birthday = '%s' where id = %d", $_POST['name'],$_POST['gender'],$_POST['birthday'],$_POST['id']);
+        $sql = sprintf("update user_table set name = '%s', gender = %d, birthday = '%s', department_id = '%d' where id = %d", $_POST['name'],$_POST['gender'],$_POST['birthday'],$_POST['department_id'],$_POST['id']);
         $stmt = $this->_db->prepare($sql);
         $stmt->execute();
 
@@ -97,10 +93,9 @@ class Todo {
         if (!isset($_POST['name']) || $_POST['name'] === '') {
             throw new \Exception('[create] name not set!');
         }
-        $sql = "insert into user_table (name,gender,birthday) values (:name,:gender,:birthday)";
+        $sql = "insert into user_table (name,gender,birthday,department_id) values (:name,:gender,:birthday,:department_id)";
         $stmt = $this->_db->prepare($sql);
-        $stmt->execute(array(':name' => $_POST['name'],':gender' => $_POST['gender'],':birthday' => $_POST['birthday']));
-        // $stmt->execute([':name' => $_POST['name']]);
+        $stmt->execute(array(':name' => $_POST['name'],':gender' => $_POST['gender'],':birthday' => $_POST['birthday'],':department_id' => $_POST['department_id']));
 
         return [
             'id' => $this->_db->lastInsertId()

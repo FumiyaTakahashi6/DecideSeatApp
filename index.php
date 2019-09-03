@@ -8,6 +8,7 @@
 
     $DecideSeatApp = new \MyAPP\Todo();
     $user_table = $DecideSeatApp->getAll();
+    $department_table = $DecideSeatApp->getDepartment();
 
 ?>
 
@@ -26,10 +27,17 @@
         <button>ユーザー追加</button>
     
         <form action="">
-            <input type="text" id="new_name" placeholder="What needs to be done?">
-            <input type="radio" name="gender" value="0">女性
-            <input type="radio" name="gender" value="1">男性
+            <input type="text" id="new_name" placeholder="名前">
+            <input type="radio" name="gender" value="0" checked>該当なし
+            <input type="radio" name="gender" value="1">女性
+            <input type="radio" name="gender" value="2">男性
             <input type="date" name="date">
+            <select id="department">
+            <option value=0>該当なし</option>
+            <?php foreach($department_table as $department) : ?>
+                <option value="<?= h($department->id) ?>"><?= h($department->name); ?></option>
+            <?php endforeach; ?>
+            </select>
             <input id="new_todo_form" type="button" value="送信する">
         </form>
         
@@ -42,20 +50,24 @@
        
                 <form id="<?= h($user->id); ?>" action="">
                     <input type="text" id="cheng_name" value=<?= h($user->name); ?>>
-                    <input type="radio" name="gender" value="0" <?php if ($user->gender === '0') { echo 'checked'; } ?>>女性 
-                    <input type="radio" name="gender" value="1" <?php if ($user->gender === '1') { echo 'checked'; } ?>>男性
+                    <input type="radio" name="gender" value="0" <?php if ($user->gender === '0') { echo 'checked'; } ?>>該当なし
+                    <input type="radio" name="gender" value="1" <?php if ($user->gender === '1') { echo 'checked'; } ?>>女性 
+                    <input type="radio" name="gender" value="2" <?php if ($user->gender === '2') { echo 'checked'; } ?>>男性
                     <input type="date" name="birthday_date" value=<?= h($user->birthday); ?>>
+                    <select id="department">
+                    <option value=0>該当なし</option>
+                    <?php foreach($department_table as $department) : ?>
+                        <option value="<?= h($department->id) ?>" <?php if ($user->department_id === $department->id) { echo 'selected'; } ?> ><?= h($department->name) ?></option>
+                    <?php endforeach; ?>
+                    </select>
                     <input class="update_todo" type="submit" value="送信する">
                 </form>
-                <!-- <div class="delete_todo">×</div> -->
             </li>
         <?php endforeach; ?>
             <li id="todo_template" data-id="">
-                <!-- <input type="checkbox" class="update_todo"> -->
                 <span class="todo_title"></span>
                 <button >変更</button>
                 <button class="delete_todo">削除</button>
-                <!-- <div class="delete_todo">×</div> -->
             </li>
         </ul>
     </div>

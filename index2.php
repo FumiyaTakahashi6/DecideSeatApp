@@ -39,6 +39,8 @@
         <?php endforeach; ?>
         </ul>
         <input id="shuffle_button" type="button"  value="シャッフル">
+        <table id="seat_results">
+        </table>
     </div>
     <input type="hidden" id="token" value="<?= h($_SESSION['token']); ?>">
 <script

@@ -19,7 +19,7 @@
     <meta charset="utf-8"> 
     <title>DecideSeatApp</title>
     <link rel="stylesheet" href="styles.css">
-    <a href="http://localhost:9000/index2.php">参加者登録ページへ</a><br>
+    <a href=<?php echo APPURL."/index2.php"?>>参加者登録ページへ</a><br>
 </head>
 <body>
     <div id="continue">

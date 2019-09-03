@@ -17,7 +17,7 @@
     <meta charset="utf-8"> 
     <title>DecideSeatApp2</title>
     <link rel="stylesheet" href="styles.css">
-    <a href="http://localhost:9000/index.php">ユーザー管理ページへ</a><br>
+    <a href=<?php echo APPURL."/index.php"?>>ユーザー管理ページへ</a><br>
 </head>
 <body>
     <div id="continue">

@@ -19,60 +19,42 @@ try {
         $table_seats = $_POST['table_seats'];
         $table_sum = count($_POST['table_seats']);
 
+        $department_id = array();
+        $shuffle_departmentData = array();
+        $shuffle_participantdata = array();
+        
         $seat_results = array();
-
-        $test = array();
-        $test2 = array();
-        $test3 = array();
 
         $participant_data = $DecideSeatApp->getParticipant($ids);
 
-        // 部署ごとソート
         foreach ($participant_data as $index => $value) {
-            $sort[$index] = $value->department_id;
+            $department_id[$index] = $value->department_id;
         }
-        array_multisort($sort, SORT_ASC, $participant_data);
-        // テーブル座席数にしたがって振り分け
-
-        /*
-        foreach ($participant_data as $index => $value) {
-            $test[$index] = $value->department_id;
-        }
-        $test = array_unique($test);
+        
+        $department_id = array_unique($department_id);
         foreach ($participant_data as $index => $value1) {
-            foreach ($test as $index => $value2) {
+            foreach ($department_id as $index => $value2) {
                 if($value1->department_id === $value2) {
-                    $test2[$value2][] = $value1;
+                    $shuffle_departmentData[$value2][] = $value1;
                 }
             }
         }
 
-        foreach ($test as $index => $value3) {
-            shuffle($test2[$value3]);
-            $test3[] = $test2[$value3];
-            
-        }
-        for ($i = 0; $i < count($test3); $i++) {
-            $table_num = $i % $table_sum;
-            if($table_seats[$table_num] === 0){
-                $test3[] = $test3[$i];
-
-            } else {
-                $table_seats[$table_num] = $table_seats[$table_num] - 1;
-                $seat_results[$table_num][] = $test3[$i];
+        foreach ($department_id as $index => $value3) {
+            shuffle($shuffle_departmentData[$value3]);
+            foreach ($shuffle_departmentData[$value3] as $index => $value4){
+                $shuffle_participantdata[] = $value4;
             }
         }
-        print_r($seat_results);
-        */
-        
-        for ($i = 0; $i < count($participant_data); $i++) {
+
+        for ($i = 0; $i < count($shuffle_participantdata); $i++) {
             $table_num = $i % $table_sum;
             if($table_seats[$table_num] === 0){
-                $participant_data[] = $participant_data[$i];
+                $shuffle_participantdata[] = $shuffle_participantdata[$i];
 
             } else {
                 $table_seats[$table_num] = $table_seats[$table_num] - 1;
-                $seat_results[$table_num][] = $participant_data[$i];
+                $seat_results[$table_num][] = $shuffle_participantdata[$i];
             }
         }
         echo json_encode($seat_results);
@@ -82,5 +64,3 @@ try {
 } catch (PDOException $e) {
     exit($e->getMessage());
 }
-
-?>

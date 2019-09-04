@@ -97,9 +97,7 @@ class Todo {
         $stmt = $this->_db->prepare($sql);
         $stmt->execute(array(':name' => $_POST['name'],':gender' => $_POST['gender'],':birthday' => $_POST['birthday'],':department_id' => $_POST['department_id']));
 
-        return [
-            'id' => $this->_db->lastInsertId()
-        ];
+        return [];
     }
 
     private function _delete() {

@@ -60,15 +60,8 @@ $(function() {
             department_id: department_id,
             mode: 'create',
             token: $('#token').val()
-        },function(res){
-            var $li = $('#todo_template') .clone();
-            $li
-                .attr('id', 'todo_' + res.id)
-                .data('id', res.id)
-                .find('.todo_title').text(name);
-            $('#todos').prepend($li.fadeIn());
-            $('#new_name').val('').focus();
-
+        },function(){
+            location.reload();
         });
         return false;
     });
@@ -100,15 +93,17 @@ $(function() {
               table_seats : table_seats
             },
             success: function(res) {
-                // console.log(res)
+                //console.log(res)
+                
                 $('#seat_results').empty();
                 let seat_results = JSON.parse(res);
                 seat_results.forEach(function( table ) {
                     $('#seat_results').append('<tr><th scope="row">テーブル(' + table.length + '人席)</th></tr>');
                     table.forEach(function( seat ) {
-                        $('#seat_results').append('<tr><th scope="row">' + seat['name'] + '</th></tr>');
+                        $('#seat_results').append('<tr><th scope="row">' + seat['name'] + '</th><th scope="row">' + seat['department_id'] + '</th></tr>');
                     }); 
                 }); 
+                
             }
         });
     });

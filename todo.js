@@ -7,7 +7,7 @@ $(function() {
     // ユーザーデータの削除
     $('#todos').on('click', '.delete_todo', function() {
         console.log("削除しました")
-        var id = $(this).parents('li').data('id');
+        let id = $(this).parents('li').data('id');
         if (confirm('are you sure?')) {
             $.post('_ajax.php', {
                 id: id,
@@ -18,11 +18,12 @@ $(function() {
             });
         }
     })
+
     // ユーザーデータの更新
     $('#todos').on('click', '.update_todo', function() {
         console.log("更新しました")
-        var id = $(this).parents('li').data('id');
-        let name = $("form[id="+id+"]").children('input[id=cheng_name]').val();
+        let id = $(this).parents('li').data('id');
+        let name = $("form[id="+id+"]").children('input[id=chang_name]').val();
         let gender = $("form[id="+id+"]").children('input[name=gender]:checked').val();
         let birthday = $("form[id="+id+"]").children('input[name=birthday_date]').val();
         let department_id = $("form[id="+id+"]").children('#department').val();
@@ -34,13 +35,7 @@ $(function() {
             department_id: department_id,
             mode: 'update',
             token: $('#token').val()
-        },function(res){
-            console.log(id);
-            if (res.gender === '1') {
-                $('#todo_' + id ).find('.todo_title').addClass('done')
-            } else {
-                $('#todo_' + id ).find('.todo_title').removeClass('done')
-            }
+        },function(){
         })
     });
     
@@ -48,9 +43,9 @@ $(function() {
     // ユーザーデータの作成
     $('#new_todo_form').on('click', function() {
         console.log("作成しました")
-        var name = $('#new_name').val();
-        var gender = $('input[name="gender"]:checked').val();
-        var birthday = $('input[name="date"]').val();
+        let name = $('#new_name').val();
+        let gender = $('input[name="gender"]:checked').val();
+        let birthday = $('input[name="date"]').val();
         let department_id = $('#department').val();
 
         $.post('_ajax.php', {
@@ -68,7 +63,7 @@ $(function() {
 
     // テーブルの追加
     $('#new_table').on('click', function() {
-        var num = $('#num').val();
+        let num = $('#num').val();
         $('#tables').append('<span class= "table" data-table=' + num + '>テーブル ' + num + '人</span>');
     });
 
@@ -92,19 +87,20 @@ $(function() {
               ids : participant_ids,
               table_seats : table_seats
             },
-            success: function(res) {
-                //console.log(res)
-                
+        })
+        .done(function (res) {
+            let seat_results = JSON.parse(res);
+            if(typeof seat_results === "string"){
+                alert(seat_results);
+            } else {
                 $('#seat_results').empty();
-                let seat_results = JSON.parse(res);
                 seat_results.forEach(function( table ) {
                     $('#seat_results').append('<tr><th scope="row">テーブル(' + table.length + '人席)</th></tr>');
                     table.forEach(function( seat ) {
                         $('#seat_results').append('<tr><th scope="row">' + seat['name'] + '</th><th scope="row">' + seat['department_id'] + '</th></tr>');
                     }); 
                 }); 
-                
             }
-        });
+        })
     });
 });

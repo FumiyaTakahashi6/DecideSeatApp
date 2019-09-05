@@ -84,9 +84,7 @@ class Todo {
 
         $this->_db->commit();
 
-        return [
-            'gender' => $gender
-        ];
+        return [];
     }
 
     private function _create() {

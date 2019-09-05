@@ -49,7 +49,7 @@
                 <button class="delete_todo">削除</button>
        
                 <form id="<?= h($user->id); ?>" action="">
-                    <input type="text" id="chang_name" value=<?= h($user->name); ?>>
+                    <input type="text" id="chang_name" value="<?= h($user->name); ?>">
                     <input type="radio" name="gender" value="0" <?php if ($user->gender === '0') { echo 'checked'; } ?>>該当なし
                     <input type="radio" name="gender" value="1" <?php if ($user->gender === '1') { echo 'checked'; } ?>>女性 
                     <input type="radio" name="gender" value="2" <?php if ($user->gender === '2') { echo 'checked'; } ?>>男性

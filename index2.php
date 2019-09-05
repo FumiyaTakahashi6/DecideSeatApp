@@ -14,6 +14,7 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+    <!-- 表示させるものは書かない -->
     <meta charset="utf-8"> 
     <title>DecideSeatApp2</title>
     <link rel="stylesheet" href="styles.css">
@@ -21,13 +22,20 @@
 </head>
 <body>
     <div id="continue">
-        <h1>参加者登録ページ</h1>
-        
-        <form action="">
-        <input id="num" type="number" min=0>
-        <input id="new_table" type="button" value="追加">
-        </form>
+        <h1>席決めアプリ</h1>
+        <ol id="tables" type="1">
+        <span>テーブル一覧</span>
+            <li>
+                <form action="">
+                <input class="num" type="number" min="1" value="1">人席
+                </form>
+            </li>
+        </ol>
+        <input id="new_table" type="button" value="テーブルの追加">
+        <input id="delete_table" type="button" value="テーブルの一括削除">
+
         <ul id=tables>
+        <span>参加者一覧</span>
         </ul>
 
         <ul id="todos">

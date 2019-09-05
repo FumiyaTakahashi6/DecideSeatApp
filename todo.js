@@ -63,14 +63,17 @@ $(function() {
 
     // テーブルの追加
     $('#new_table').on('click', function() {
-        let num = $('#num').val();
-        $('#tables').append('<span class= "table" data-table=' + num + '>テーブル ' + num + '人</span>');
+        $('#tables').append('<li><form action=""><input class="num" type="number" min="1" value="1">人席</form></li>');
+    });
+    // テーブルの一括削除
+    $('#delete_table').on('click', function() {
+        $('#tables').children('li').remove();
     });
 
     $('#shuffle_button').on('click', function() {
         let table_seats = []
-        $('span[class="table"]').each(function(index,element) {
-            let seats = $(element).data('table');
+        $('input[class="num"]').each(function(index,element) {
+            let seats = $(element).val();
             table_seats[index] = seats;
         })
 

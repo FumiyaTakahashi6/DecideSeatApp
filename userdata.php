@@ -1,7 +1,5 @@
 <?php
 
-
-
 ## 名前空間を指定(同一関数呼び出し可能)
 namespace MyApp;
 
@@ -36,6 +34,7 @@ class Todo {
         return $stmt->fetchAll(\PDO::FETCH_OBJ);
     }
 
+    // 関数名　getParticipant_detailに変更
     public function getParticipant($ids) {
         $inClause = substr(str_repeat(',?', count($ids)), 1);
         $sql = sprintf('select * from user_table where id IN (%s)', $inClause);

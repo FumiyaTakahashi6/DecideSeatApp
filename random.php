@@ -56,7 +56,7 @@ foreach ($department_id as $index => $value3) {
 
 for ($i = 0; $i < count($shuffle_participantdata); $i++) {
     $table_num = $i % $table_sum;
-    if($table_seats[$table_num] === 0){
+    if($table_seats[$table_num] == "0"){
         $shuffle_participantdata[] = $shuffle_participantdata[$i];
 
     } else {

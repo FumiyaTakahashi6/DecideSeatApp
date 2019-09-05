@@ -7,7 +7,9 @@
     require_once(__DIR__ . '/userdata.php');
 
     $DecideSeatApp = new \MyAPP\Todo();
+    //　getUsers()に変更
     $user_table = $DecideSeatApp->getAll();
+    //　getDepartments()に変更
     $department_table = $DecideSeatApp->getDepartment();
 
 ?>
@@ -15,7 +17,6 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-
     <meta charset="utf-8"> 
     <title>DecideSeatApp</title>
     <link rel="stylesheet" href="styles.css">
@@ -55,7 +56,7 @@
                     <input type="radio" name="gender" value="2" <?php if ($user->gender === '2') { echo 'checked'; } ?>>男性
                     <input type="date" name="birthday_date" value=<?= h($user->birthday); ?>>
                     <select id="department">
-                    <option value=0>該当なし</option>
+                    <option value="0">該当なし</option>
                     <?php foreach($department_table as $department) : ?>
                         <option value="<?= h($department->id) ?>" <?php if ($user->department_id === $department->id) { echo 'selected'; } ?> ><?= h($department->name) ?></option>
                     <?php endforeach; ?>
@@ -67,6 +68,7 @@
         </ul>
     </div>
     <input type="hidden" id="token" value="<?= h($_SESSION['token']); ?>">
+    <!-- 下に書く必要がない　-->
 <script
 src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script src="todo.js"></script>

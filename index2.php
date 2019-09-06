@@ -18,7 +18,7 @@
     <meta charset="utf-8"> 
     <title>DecideSeatApp2</title>
     <link rel="stylesheet" href="styles.css">
-    <a href=<?php echo APPURL."/index.php"?>>ユーザー管理ページへ</a><br>
+    <a href=<?php echo APPURL."/index.php"?>>ユーザー管理</a><br>
 </head>
 <body>
     <div id="continue">
@@ -41,7 +41,7 @@
         <ul id="todos">
         <?php foreach($user_table as $user) : ?>
             <li id="todo_<?= h($user->id); ?>" data-id="<?= h($user->id); ?>">
-                <input type="checkbox" name="sample">
+                <input type="checkbox" name="sample" checked>
                 <span class="todo_title"><?= h($user->name); ?></span>
             </li>
         <?php endforeach; ?>

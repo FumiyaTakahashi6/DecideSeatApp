@@ -20,11 +20,11 @@
     <meta charset="utf-8"> 
     <title>DecideSeatApp</title>
     <link rel="stylesheet" href="styles.css">
-    <a href=<?php echo APPURL."/index2.php"?>>参加者登録ページへ</a><br>
+    <a href=<?php echo APPURL."/index2.php"?>>席決めアプリ</a><br>
 </head>
 <body>
     <div id="continue">
-        <h1>ユーザ管理ページ</h1>
+        <h1>ユーザー管理</h1>
         <button>ユーザー追加</button>
     
         <form action="">

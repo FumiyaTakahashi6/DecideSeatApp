@@ -63,11 +63,40 @@ $(function() {
 
     // テーブルの追加
     $('#new_table').on('click', function() {
-        $('#tables').append('<li><form action=""><input class="num" type="number" min="1" value="1">人席</form></li>');
+        $('#tables').append('<li><input class="num" type="number" min="1" value="1">人席</li>');
+        let sum = 0
+        $('input[class="num"]').each(function(index,element) {
+            sum = Number($(element).val()) + sum; 
+        })
+        $('#output').text("合計　" + sum + "席");
     });
+
     // テーブルの一括削除
     $('#delete_table').on('click', function() {
         $('#tables').children('li').remove();
+        let sum = 0
+        $('input[class="num"]').each(function(index,element) {
+            sum = Number($(element).val()) + sum; 
+        })
+        $('#output').text("合計　" + sum + "席");
+    });
+
+    // textbox Enter不可
+    $('#tables').keypress(function(ev) {
+        if ((ev.which && ev.which === 13) || (ev.keyCode && ev.keyCode === 13)) {
+            return false;
+        } else {
+            return true;
+        }
+    });
+
+    // textbox操作時の処理
+    $('#tables').on('input',function(event) {
+        let sum = 0
+        $('input[class="num"]').each(function(index,element) {
+            sum = Number($(element).val()) + sum; 
+        })
+        $('#output').text("合計　" + sum + "席");
     });
 
     $('#shuffle_button').on('click', function() {

@@ -18,8 +18,8 @@ if (!isset($_POST['ids']) || !isset($_POST['table_seats'])  ) {
 $participant_sum = count($_POST['ids']);
 $table_seats_sum = array_sum($_POST['table_seats']);
 // 参加者と座席数が一致しているか確認
-if ($participant_sum !== $table_seats_sum){
-    $error_msg = '参加者と座席数が一致しません';
+if ($participant_sum > $table_seats_sum){
+    $error_msg = '座席数が足りていません';
     exit(json_encode($error_msg));
 }
 
@@ -34,11 +34,15 @@ $seat_results = array();
 
 $participant_data = $DecideSeatApp->getParticipant($ids);
 
+// 参加者の部署IDの取得
 foreach ($participant_data as $index => $value) {
     $department_id[$index] = $value->department_id;
 }
 
+// 部署IDの重複削除
 $department_id = array_unique($department_id);
+
+// 部署毎に参加者を格納
 foreach ($participant_data as $index => $value1) {
     foreach ($department_id as $index => $value2) {
         if($value1->department_id === $value2) {
@@ -47,6 +51,7 @@ foreach ($participant_data as $index => $value1) {
     }
 }
 
+// 部署毎に並び順をシャッフル
 foreach ($department_id as $index => $value3) {
     shuffle($shuffle_departmentData[$value3]);
     foreach ($shuffle_departmentData[$value3] as $index => $value4){
@@ -54,6 +59,7 @@ foreach ($department_id as $index => $value3) {
     }
 }
 
+// テーブル毎に人数を分配
 for ($i = 0; $i < count($shuffle_participantdata); $i++) {
     $table_num = $i % $table_sum;
     if($table_seats[$table_num] == "0"){

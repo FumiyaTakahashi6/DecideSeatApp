@@ -97,8 +97,8 @@ $(function() {
                 alert(seat_results);
             } else {
                 $('#seat_results').empty();
-                seat_results.forEach(function( table ) {
-                    $('#seat_results').append('<tr><th scope="row">テーブル(' + table.length + '人席)</th></tr>');
+                seat_results.forEach(function( table, index ) {
+                    $('#seat_results').append('<tr><th scope="row">テーブル(' + table_seats[index] + '人席)</th></tr>');
                     table.forEach(function( seat ) {
                         $('#seat_results').append('<tr><th scope="row">' + seat['name'] + '</th><th scope="row">' + seat['department_id'] + '</th></tr>');
                     }); 
